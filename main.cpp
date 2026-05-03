@@ -111,12 +111,26 @@ public:
 
     void trigonometry() {
         double angle;
-        cout << "Enter angle in degrees: "; 
-        cin >> angle;
+        cout << "Enter angle in degrees: "; cin >> angle;
         double rad = angle * M_PI / 180;
-        cout << "sin = " << sin(rad) << endl;
-        cout << "cos = " << cos(rad) << endl;
-        cout << "tan = " << tan(rad) << endl;
+
+        auto fix = [](double val) {
+            return (abs(val) < 1e-10) ? 0.0 : val;
+        };
+
+        double s = fix(sin(rad));
+        double c = fix(cos(rad));
+        double t;
+
+        if (abs(cos(rad)) < 1e-10)
+            t = numeric_limits<double>::infinity();
+        else
+            t = fix(tan(rad));
+
+        cout << "sin = " << s << endl;
+        cout << "cos = " << c << endl;
+        cout << "tan = " << t << endl;
+
         addHistory("trig(" + to_string(angle) + "deg)");
     }
 
